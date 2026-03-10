@@ -1,24 +1,45 @@
 import React, {Component} from "react" ;
-import {View, Text, Image, Button} from 'react-native'; 
+import {View, Text, TextInput, Image, Button, StyleSheet} from 'react-native'; 
 //import {useFonts} from "@expo-google-fonts/inter/userFonts";
+
+const Card = ({title, description}) => {
+  return(
+    <View style={styles.card}>
+      <Text style={styles.title}> {title}</Text>
+      <Text style={styles.description}> {description} </Text>
+    </View>
+  );
+};
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      nome: ""
+      nome: "",
+      input:''
     };
-    this.entrar = this.entrar.bind(this);
+    this.entradaNome= this.entradaNome.bind(this);
   }
-    entrar(nome) {
-      this.setState({
-        nome: nome
-      })
+    entradaNome(texto) {
+    if(texto.length > 0) {
+      this.setState({nome: 'seja bem vindo a aplicação:' + texto});
+    } else {
+      this.setState({nome: ''});
+    }
     }
 
   render () {
     return(
-      <View> 
+      <View style={styles.container}> 
+        <TextInput
+        style = {styles.input}
+        placeholder="Digite o seu nome: "
+        underlineColorAndroid="transparent"
+        onChangeText={this.entradaNome}        
+        />
+
+        <Text style={styles.texto}> {this.state.nome}</Text>
+        
         <Text style={{color:'#4B0082', fontSize:25, margin: 10}}>Aplicação Inicial</Text>
         <Text>Primeiro Projeto - Padrão</Text>
         <Button title="entrar"onPress={() => this.entrar('Seja bem vindo a aplicação')}/>
@@ -28,14 +49,50 @@ class App extends Component {
         style={{width:300, height:300}}
         />
 
+        <Card title='Título' description='Este é um exemplo de card'/>
+
         <Jobs
           largura={200} altura={300}
         />
       </View>
     );
-  }
 }
+};
 export default App;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'flex-start',
+    backgroundColor: '#C8A2C8',
+  },
+
+  title: {
+    fontSize: 16,
+    margin: 8,
+  },
+  description: {
+    fontSize: 11, 
+    color: 'green',
+  },
+  Card:{
+    width: 300,
+    height: 200,
+    padding: 20,
+    borderRadius: 10, 
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: 'purple',
+    margin: 12,
+    fontSize: 20,
+    padding: 10
+  },
+  texto: {
+    fontSize: 18,
+    textAlign: 'center'
+  },
+});
 
 class Jobs extends Component {
   
